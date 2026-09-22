@@ -1,3 +1,14 @@
+def get_matrix(path):
+    with open(path, "r", encoding="utf-8") as f:
+        content = f.read().splitlines()
+    content.pop(0)
+    content = list(map(lambda x: x.split(), content))
+    index = 0
+    for row in content:
+        content[index] = list(map(lambda x: int(x), row))
+        index += 1
+    return content
+
 def get_object(matrix, row, col, already_visited):
     if (row,col) in already_visited or row < 0 or col < 0 or row >= len(matrix):
         return
@@ -26,3 +37,6 @@ def get_objects_number(matrix):
                     objs += 1
                     get_object(matrix, row, col, already_visited)
     return objs
+
+if __name__ == "__main__":
+    print(get_objects_number(get_matrix("teste.txt")))
