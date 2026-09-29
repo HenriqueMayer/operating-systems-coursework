@@ -39,4 +39,4 @@ def get_objects_number(matrix):
     return objs
 
 if __name__ == "__main__":
-    print(get_objects_number(get_matrix("teste.txt")))
+    print(get_objects_number(get_matrix("tests/matrizes/exemplo1.txt")))
