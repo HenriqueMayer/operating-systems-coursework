@@ -39,6 +39,7 @@ docs/enunciado.md    Transcrição do enunciado
 docs/reference.md   Transcrição do material de apoio
 PDF/                PDFs originais e extração em PDF/extracao/
 results/            Resultados de desempenho e validação
+slides/             Apresentação HTML, roteiro e versão PDF
 build/              Executáveis gerados, ignorados pelo Git
 ```
 
@@ -87,7 +88,7 @@ python3 reference/python/sequencial.py
 python3 reference/python/paralela.py
 ```
 
-A sequencial Python foi preservada com suas limitações: recursão em objetos grandes e ausência de validação da entrada. A versão C corrige essas limitações. Slides de apresentação ainda não foram produzidos.
+A sequencial Python foi preservada com suas limitações: recursão em objetos grandes e ausência de validação da entrada. A versão C corrige essas limitações. A [apresentação HTML](slides/apresentacao.html), o [roteiro da dupla](slides/roteiro.md) e os [slides em PDF](slides/apresentacao.pdf) estão em `slides/`.
 
 ## Fontes
 
