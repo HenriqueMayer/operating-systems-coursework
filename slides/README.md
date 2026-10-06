@@ -6,7 +6,7 @@ Para apresentar ao vivo, abra [apresentacao.html](apresentacao.html) no navegado
 
 - [roteiro.md](roteiro.md): falas e ações de cada membro, por slide; previsão de 8 min 50 s.
 - [apresentacao.pdf](apresentacao.pdf): versão estática para a entrega exigida pelo enunciado.
-- [Gravação e montagem do vídeo](../records/README.md): vídeo completo, gravações importadas do Sound Recorder, prévia anterior dos slides 1 a 7 e scripts de montagem.
+- [Gravação e montagem do vídeo](../records/README.md): vídeo completo, gravações importadas do Sound Recorder e scripts de montagem.
 
 A previsão do roteiro corresponde ao ensaio; a duração do vídeo corresponde à edição das falas gravadas.
 

@@ -1,6 +1,6 @@
 # Trabalho_Pratico_Processos_Threads_Contagem_Objetos.pdf
 
-Fonte: `/home/hmayer/Documents/Academic/PUCRS/Semester-6/operating-systems-coursework/PDF/Trabalho_Pratico_Processos_Threads_Contagem_Objetos.pdf`  
+Fonte: [PDF original](../Trabalho_Pratico_Processos_Threads_Contagem_Objetos.pdf)\
 SHA-256: `24255f84009f9922c9086d61d4ba42c00864e186d54e8791d2baa780b4ee905b`
 
 ## Página 1

@@ -1,6 +1,6 @@
 # [SisOp]_Processos_e_Threads_em_Sistemas_Operacionais_POSIX.pdf
 
-Fonte: `/home/hmayer/Documents/Academic/PUCRS/Semester-6/operating-systems-coursework/PDF/[SisOp]_Processos_e_Threads_em_Sistemas_Operacionais_POSIX.pdf`  
+Fonte: [PDF original](../%5BSisOp%5D_Processos_e_Threads_em_Sistemas_Operacionais_POSIX.pdf)\
 SHA-256: `31ba933136a064494119ac5e292b98c0568f67441f5d493eb76bfa3df52f36f1`
 
 ## Página 1

@@ -2,7 +2,7 @@
 
 Assista ao [vídeo completo da apresentação](apresentacao-final.mp4): **14 slides, aproximadamente 5 min 42 s**, em **1920 × 1080, 30 quadros/s, H.264 e AAC**. A montagem sincroniza as falas às animações da busca sequencial e da união dos componentes na fronteira. As [legendas em português](apresentacao-final.srt) são opcionais e também estão incorporadas ao MP4; podem ser ativadas ou desativadas no reprodutor.
 
-Os [slides, roteiro e PDF](../slides/README.md), as gravações de origem e a prévia anterior permanecem preservados.
+Os [slides, roteiro e PDF](../slides/README.md) e as gravações de origem estão disponíveis neste repositório.
 
 ## Arquivos disponíveis
 
@@ -14,20 +14,16 @@ Os [slides, roteiro e PDF](../slides/README.md), as gravações de origem e a pr
 | [1-7.mp4](1-7.mp4) | Gravação original das falas dos slides 1 a 7. Contém apenas áudio AAC mono; não possui vídeo. |
 | [8.flac](8.flac) a [14.flac](14.flac) | Gravações válidas dos slides 8 a 14, importadas do GNOME Sound Recorder; todas contêm sinal de áudio. |
 | [14-edicao.flac](14-edicao.flac) | Fonte usada no encerramento do vídeo, com corte pontual da menção numérica divergente; `14.flac` preserva a gravação completa. |
-| [originais-silenciosos/](originais-silenciosos/) | Backup dos sete arquivos anteriores, de `8.flac` a `14.flac`, nos quais a conferência inicial encontrou somente silêncio digital. |
-| [apresentacao-1-7.mp4](apresentacao-1-7.mp4) | Prévia parcial dos slides 1 a 7, sincronizada à gravação original, com os dez passos da simulação sequencial. |
-| [apresentacao-1-7.srt](apresentacao-1-7.srt) | Legendas opcionais da prévia; nomes de funções e erros fonéticos da transcrição automática revisados pelo roteiro. |
-| [edicao-1-7.json](edicao-1-7.json) | Linha do tempo da prévia: gravação, imagens, animações e capítulos. |
 | [scripts/render_slides.cjs](scripts/render_slides.cjs) | Captura os 14 slides e os estados das duas simulações diretamente do HTML original. |
 | [scripts/montar_video.py](scripts/montar_video.py) | Montagem local com FFmpeg, normalização de volume, transições, capítulos e verificação de decodificação. Rejeita fontes inteiramente silenciosas. |
 
-As falas dos slides 8 a 14 estavam em `~/.local/share/org.gnome.SoundRecorder/`, em arquivos chamados `8` a `14`, sem extensão. Foram copiadas para os respectivos arquivos FLAC desta pasta. Os arquivos silenciosos anteriores foram movidos para o backup, sem apagá-los.
+As falas dos slides 8 a 14 foram gravadas no GNOME Sound Recorder e copiadas para os respectivos arquivos FLAC desta pasta.
 
 As falas dos slides 1 a 13 mantêm suas durações integrais; o encerramento usa `14-edicao.flac`, com o corte descrito abaixo. O volume é normalizado separadamente por fonte. As mudanças de slide seguem as pausas reais; o slide 6 acompanha os rótulos 1, 14 e 21. No slide 10, a animação mostra a soma local 5, destaca o contato diagonal, une os rótulos 10 e 28 e mantém a contagem 4 nos contatos repetidos. Os controles do navegador e os tempos previstos do roteiro ficam ocultos no vídeo.
 
-Na revisão do áudio 14, três transcrições reconheceram **3.803 execuções**, enquanto o slide e o relatório de validação registram **3.813**. A edição remove somente essa menção, entre **6,22 e 8,88 s** da gravação original, com uma transição de áudio de **0,02 s** e redução total de **2,68 s**. A fala passa de “validamos 723 matrizes” para “com uma referência independente”, usando apenas a voz gravada. O original `14.flac` permanece disponível, e o slide conserva o número correto, 3.813. A edição final tem **341,5573 s**.
+O encerramento recebeu um corte pontual da menção numérica divergente, usando apenas a voz gravada. O original `14.flac` está preservado, e o slide apresenta o resultado correto de **3.813 execuções**. Os tempos e o motivo do corte estão registrados em `edicao.json`. A edição final tem **341,5573 s**.
 
-A prévia dos slides 1 a 7 tem cerca de **2 min 34 s** e permanece disponível como registro da primeira montagem.
+A prévia parcial dos slides 1 a 7 e os sete arquivos silenciosos anteriores foram preservados no acervo local e são ignorados pelo Git. Um clone atual contém a apresentação completa e suas fontes; versões anteriores continuam no histórico.
 
 ## Reproduzir a montagem
 
@@ -37,13 +33,7 @@ Na raiz do repositório, com Python 3, Node.js, Playwright, Chrome e FFmpeg disp
 python3 records/scripts/montar_video.py
 ```
 
-Por padrão, o script lê `records/edicao.json` e gera `records/apresentacao-final.mp4`. Para reproduzir a prévia anterior:
-
-```sh
-python3 records/scripts/montar_video.py \
-  --timeline records/edicao-1-7.json \
-  --output records/apresentacao-1-7.mp4
-```
+Por padrão, o script lê `records/edicao.json` e gera `records/apresentacao-final.mp4`.
 
 O script usa `build/video/` para imagens e arquivos intermediários, ignorados pelo Git. O renderer procura Playwright nos pacotes do Node e no runtime local do Codex; `NODE_PATH` permite fornecer outro diretório. `CHROME` permite escolher o navegador.
 
@@ -59,3 +49,4 @@ O enunciado limita a apresentação a dez minutos e exige participação dos doi
 | 2026-10-05 | `8.flac` a `14.flac`: importadas as gravações válidas do GNOME Sound Recorder. Preservados os arquivos silenciosos anteriores em `originais-silenciosos/`. |
 | 2026-10-05 | `apresentacao-final.mp4`, `apresentacao-final.srt` e `edicao.json`: concluída a montagem integral dos 14 slides, com volume normalizado por fonte, animações sequencial e de fronteira, capítulos e legendas opcionais. |
 | 2026-10-05 | `14-edicao.flac`: removida a menção numérica divergente do encerramento, com transição curta de áudio; preservados `14.flac` e o resultado correto nos slides. Duração final ajustada para aproximadamente 5 min 42 s. |
+| 2026-10-06 | A prévia `apresentacao-1-7.mp4`, suas legendas e linha do tempo, e `originais-silenciosos/` passaram a ser arquivos locais ignorados pelo Git. Conservados o vídeo completo, os áudios utilizados e os scripts de reprodução. |

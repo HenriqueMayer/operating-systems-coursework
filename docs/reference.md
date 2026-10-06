@@ -1,6 +1,6 @@
 # Material de apoio - Processos e threads no Linux e macOS
 
-Fonte: [Processos e Threads em Sistemas Operacionais - PDF original](../PDF/%5BSisOp%5D_Processos_e_Threads_em_Sistemas_Operacionais_POSIX.pdf), 21 slides. Enunciado do trabalho: [README.md](enunciado.md).
+Fonte: [Processos e Threads em Sistemas Operacionais - PDF original](../PDF/%5BSisOp%5D_Processos_e_Threads_em_Sistemas_Operacionais_POSIX.pdf), 21 slides. Enunciado do trabalho: [Enunciado do trabalho](enunciado.md).
 
 > **Nota de extração:** transcrição na ordem dos slides, com títulos, textos, tabelas, exemplos e referências do material original. Cada número de slide corresponde à página de mesmo número no PDF. Os códigos e as saídas de terminal foram conferidos visualmente; não foram executados nem corrigidos. As afirmações e os resultados apresentados pertencem à fonte. O texto das figuras foi transcrito em subseções identificadas, mantendo os rótulos em inglês. Notas de extração distinguem observações editoriais do conteúdo original; o PDF preserva a apresentação gráfica das figuras.
 

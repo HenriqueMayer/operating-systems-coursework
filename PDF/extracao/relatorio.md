@@ -1,6 +1,6 @@
 # Relatório de extração
 
-Origem: `/home/hmayer/Documents/Academic/PUCRS/Semester-6/operating-systems-coursework/PDF`
+Origem: `PDF/`. Os caminhos do manifesto são relativos à raiz do repositório.
 
 | Arquivo | Estado | Observações |
 | --- | --- | --- |
