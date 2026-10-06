@@ -1,0 +1,416 @@
+1
+00:00:00,690 --> 00:00:04,990
+Nós implementamos duas versões para contar
+objetos em uma matriz binária.
+
+2
+00:00:05,530 --> 00:00:06,750
+A primeira é sequencial.
+
+3
+00:00:07,450 --> 00:00:10,470
+A segunda divide o cálculo entre processos
+POSIX.
+
+4
+00:00:11,390 --> 00:00:15,150
+Vamos explicar a entrada, a busca, divisão e
+a consolidação.
+
+5
+00:00:17,530 --> 00:00:20,890
+Cada zero é fundo e cada um pertence ao
+primeiro plano.
+
+6
+00:00:21,450 --> 00:00:23,450
+Um objeto é um grupo de uns conectados.
+
+7
+00:00:24,030 --> 00:00:27,670
+A conexão inclui os lados e os cantos. São os
+oito vizinhos.
+
+8
+00:00:28,270 --> 00:00:34,150
+Neste exemplo, temos o grupo do canto
+superior esquerdo, o grupo à direita e a
+célula de baixo.
+
+9
+00:00:34,610 --> 00:00:36,430
+Por isso, o resultado é 3.
+
+10
+00:00:38,010 --> 00:00:40,830
+O arquivo começa com um número de linhas e
+colunas.
+
+11
+00:00:41,250 --> 00:00:42,870
+Depois, vem os valores da matriz.
+
+12
+00:00:43,750 --> 00:00:45,850
+get_matrix lê e valida esses dados.
+
+13
+00:00:46,570 --> 00:00:50,370
+calloc cria os rótulos com zero, indicando
+que nada foi visitado.
+
+14
+00:00:50,950 --> 00:00:55,470
+Na sequencial, chamamos get_part_objects da
+linha zero até o total de linhas.
+
+15
+00:00:55,470 --> 00:00:57,370
+Ou seja, toda matriz.
+
+16
+00:00:58,810 --> 00:01:00,570
+O laço percorre as células.
+
+17
+00:01:01,070 --> 00:01:03,570
+Se for fundo ou já tiver rótulo, ele pula.
+
+18
+00:01:04,070 --> 00:01:07,170
+Quando encontra um um ainda não visitado,
+soma um objeto.
+
+19
+00:01:08,210 --> 00:01:10,810
+O rótulo é o índice global dessa célula mais
+um.
+
+20
+00:01:11,330 --> 00:01:13,890
+Depois marca a célula e a coloca na pilha.
+
+21
+00:01:14,470 --> 00:01:18,190
+Esse índice também impede que processos
+diferentes criem rótulos iguais.
+
+22
+00:01:19,570 --> 00:01:24,890
+Enquanto há células na pilha, o código retira
+a última e examina os oito vizinhos.
+
+23
+00:01:24,890 --> 00:01:30,650
+Os laços de dr e dc representam os
+deslocamentos de menos um a mais um.
+
+24
+00:01:30,890 --> 00:01:35,810
+Os limites impedem sair da matriz ou da faixa
+do processo.
+
+25
+00:01:36,610 --> 00:01:39,910
+Um vizinho só entra na pilha, se vale um e
+ainda não tem rótulo.
+
+26
+00:01:40,450 --> 00:01:44,230
+Ele é marcado antes de entrar, evitando
+colocá-lo várias vezes.
+
+27
+00:01:44,750 --> 00:01:48,490
+A busca é iterativa, então não depende da
+pilha de chamadas recursivas.
+
+28
+00:01:50,910 --> 00:01:52,890
+Vamos acompanhar a mesma matriz.
+
+29
+00:01:53,450 --> 00:01:55,430
+A primeira célula cria o rótulo um.
+
+30
+00:01:55,430 --> 00:01:58,990
+Seus vizinhos recebem esse rótulo e formam um
+único objeto.
+
+31
+00:01:59,570 --> 00:02:03,990
+Depois, a busca encontra o grupo à direita,
+com o rótulo 14.
+
+32
+00:02:04,510 --> 00:02:06,970
+E a célula de baixo, com o rótulo 21.
+
+33
+00:02:07,550 --> 00:02:11,130
+Os números dos rótulos são diferentes da
+contagem. O total é 3.
+
+34
+00:02:12,890 --> 00:02:15,510
+A paralela divide a matriz em faixas de
+linhas.
+
+35
+00:02:15,970 --> 00:02:19,150
+Com seis linhas e dois processos, cada um
+recebe três.
+
+36
+00:02:19,710 --> 00:02:23,030
+Base calcula a quantidade mínima e extra
+calcula a sobra.
+
+37
+00:02:23,030 --> 00:02:27,570
+Quando a divisão não é exata, as primeiras
+faixas recebem uma linha a mais.
+
+38
+00:02:28,150 --> 00:02:29,750
+Cada processo faz trabalho real.
+
+39
+00:02:30,850 --> 00:02:33,130
+Executa a busca nas células da sua faixa.
+
+40
+00:02:35,511 --> 00:02:40,651
+O pai lê a matriz e criou o pipe antes de
+cada fork, fork criou
+
+41
+00:02:40,651 --> 00:02:41,931
+um processo filho.
+
+42
+00:02:42,071 --> 00:02:45,591
+E cada filho recebe uma cópia do espaço de
+memória e executa sua faixa.
+
+43
+00:02:46,011 --> 00:02:48,291
+A gente não usa memória compartilhada para
+escrever os rótulos,
+
+44
+00:02:48,651 --> 00:02:50,871
+e cada filho escreve nos seus próprios dados.
+
+45
+00:02:51,091 --> 00:02:52,971
+O pipe ele leva o resultado ao pai,
+
+46
+00:02:53,391 --> 00:02:56,751
+depois o waitpid verifica se cada filho
+terminou corretamente.
+
+47
+00:02:56,971 --> 00:03:00,191
+São os dois trabalhadores mais o processo do
+pai.
+
+48
+00:03:02,090 --> 00:03:07,050
+O filho chama, a mesma função de busca da
+sequencial, e ao terminar
+
+49
+00:03:07,050 --> 00:03:10,770
+envia três partes a quantidade de
+componentes, a primeira linha
+
+50
+00:03:10,770 --> 00:03:11,830
+de rótulo e a última.
+
+51
+00:03:12,510 --> 00:03:15,850
+Não precisa enviar todos os rótulos porque
+qualquer conexão com
+
+52
+00:03:15,850 --> 00:03:18,910
+outra faixa passa pela borda.
+
+53
+00:03:20,750 --> 00:03:25,030
+transfer, repete, read ou write até completar
+a transferência, pois
+
+54
+00:03:25,030 --> 00:03:28,350
+um pipe pode entregar menos bytes que o
+solicitado.
+
+55
+00:03:28,645 --> 00:03:33,185
+Nesse exemplo mostra por que não basta somar.
+A faixa superior encontra
+
+56
+00:03:33,185 --> 00:03:35,225
+dois componentes e a inferior encontra três.
+
+57
+00:03:35,725 --> 00:03:40,225
+A soma dá cinco, mas os rótulos dez e vinte e
+oito são partes do
+
+58
+00:03:40,225 --> 00:03:41,425
+mesmo objeto central.
+
+59
+00:03:41,925 --> 00:03:44,505
+E aí eles se encontram na fronteira,
+inclusive por uma diagonal.
+
+60
+00:03:45,025 --> 00:03:49,685
+A união dos dois a contagem cai para quatro.
+Outros contatos entre
+
+61
+00:03:49,685 --> 00:03:52,705
+as mesmas partes não reduzem a contagem outra
+vez.
+
+62
+00:03:55,117 --> 00:03:57,757
+Union-Find mantém os grupos de rótulos
+equivalentes.
+
+63
+00:03:57,957 --> 00:04:00,857
+O get_root encontra o representante de cada
+grupo
+
+64
+00:04:00,857 --> 00:04:03,657
+e se os dois representantes já são iguais,
+
+65
+00:04:04,977 --> 00:04:08,177
+continue evita repetir a união e a subtração.
+
+66
+00:04:08,397 --> 00:04:11,097
+Se forem diferentes, parents, liga os grupos
+
+67
+00:04:11,097 --> 00:04:13,497
+e objects diminui uma unidade.
+
+68
+00:04:14,217 --> 00:04:17,497
+E o rank ajuda a manter a estrutura pouco
+profunda
+
+69
+00:04:17,497 --> 00:04:20,157
+e o get_root também comprime o caminho.
+
+70
+00:04:20,157 --> 00:04:23,097
+É isso que mantém a contagem correta
+
+71
+00:04:23,097 --> 00:04:25,277
+quando existem vários contatos na borda.
+
+72
+00:04:26,225 --> 00:04:30,585
+Depois de compilar com o make, a gente
+executa as duas versões sobre
+
+73
+00:04:30,585 --> 00:04:34,605
+o mesmo arquivo, no exemplo um ambas imprimem
+3, no exemplo 2 a
+
+74
+00:04:34,605 --> 00:04:40,045
+paralela imprime 4, como vimos na simulação e
+a tabela mostra que
+
+75
+00:04:40,045 --> 00:04:43,925
+as 5 matrizes obrigatórias produzem os
+resultados esperados.
+
+76
+00:04:44,545 --> 00:04:46,165
+E aí a saída é somente o número de objetos.
+
+77
+00:04:47,847 --> 00:04:52,827
+Pro desempenho, a gente usa a mesma matriz de
+800 linhas e colunas.
+
+78
+00:04:52,847 --> 00:04:55,767
+E aí, fizemos cinco medições, usamos a
+mediana do tempo real.
+
+79
+00:04:56,127 --> 00:05:00,127
+A sequencial levou cerca de 62 milissegundos,
+com dois processos,
+
+80
+00:05:00,147 --> 00:05:02,607
+cerca de 57, com quatro,
+
+81
+00:05:02,827 --> 00:05:07,147
+cerca de 56 e meio, e a aceleração ficou
+perto de 1,1.
+
+82
+00:05:07,827 --> 00:05:10,667
+O ganho foi pequeno, porque a leitura, a
+criação dos processos,
+
+83
+00:05:10,707 --> 00:05:12,767
+a comunicação e a consolidação também custam
+tempo.
+
+84
+00:05:12,767 --> 00:05:16,967
+E não esperamos que toda matriz fique mais
+rápida.
+
+85
+00:05:18,018 --> 00:05:23,698
+Além das cinco matrizes, validamos setecentas
+e vinte e três matrizes.
+
+86
+00:05:24,018 --> 00:05:28,558
+Com uma referência independente, a gente
+inclui as diagonais e objetos grandes.
+
+87
+00:05:29,338 --> 00:05:33,158
+E também verificamos as entradas inválidas e
+falhas de memória e fork.
+
+88
+00:05:33,498 --> 00:05:37,578
+A solução distribui a busca entre os filhos e
+consolida no pai.
+
+89
+00:05:37,758 --> 00:05:40,938
+As duas versões contam os mesmos objetos nos
+casos testados.
+

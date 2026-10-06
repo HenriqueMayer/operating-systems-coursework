@@ -40,6 +40,7 @@ docs/reference.md   Transcrição do material de apoio
 PDF/                PDFs originais e extração em PDF/extracao/
 results/            Resultados de desempenho e validação
 slides/             Apresentação HTML, roteiro e versão PDF
+records/            Vídeo completo, gravações, legendas e montagem reproduzível
 build/              Executáveis gerados, ignorados pelo Git
 ```
 
@@ -90,6 +91,8 @@ python3 reference/python/paralela.py
 
 A sequencial Python foi preservada com suas limitações: recursão em objetos grandes e ausência de validação da entrada. A versão C corrige essas limitações. A [apresentação HTML](slides/apresentacao.html), o [roteiro da dupla](slides/roteiro.md) e os [slides em PDF](slides/apresentacao.pdf) estão em `slides/`.
 
+O [vídeo completo da apresentação](records/apresentacao-final.mp4) reúne as gravações dos 14 slides e as simulações da busca sequencial e da consolidação na fronteira. Tem aproximadamente 5 min 42 s, em 1080p a 30 quadros/s, com volume normalizado por gravação e [legendas opcionais](records/apresentacao-final.srt). As fontes, a linha do tempo, o comando de montagem e a prévia anterior dos slides 1 a 7 estão documentados em [records/README.md](records/README.md).
+
 ## Fontes
 
 - [Enunciado do trabalho](docs/enunciado.md)
@@ -97,3 +100,10 @@ A sequencial Python foi preservada com suas limitações: recursão em objetos g
 - [Relatório da extração dos PDFs](PDF/extracao/relatorio.md)
 
 Não há dependências externas no código C além da biblioteca padrão e das APIs POSIX.
+
+## Registro de materiais
+
+| Data | Registro |
+| --- | --- |
+| 2026-10-05 | `records/`: incluídos índice das gravações, prévia sincronizada dos slides 1 a 7, legendas e scripts de montagem. A conferência inicial identificou silêncio digital nos arquivos dos slides 8 a 14. |
+| 2026-10-05 | `records/apresentacao-final.mp4`: concluída a montagem dos 14 slides com as gravações válidas importadas do GNOME Sound Recorder, animações e legendas opcionais. Os arquivos silenciosos anteriores foram preservados em `records/originais-silenciosos/`. |

@@ -1,0 +1,264 @@
+{
+  "audio": [
+    {
+      "file": "records/1-7.mp4",
+      "kind": "gravacao_original"
+    },
+    {
+      "file": "records/8.flac",
+      "kind": "gravacao_sound_recorder"
+    },
+    {
+      "file": "records/9.flac",
+      "kind": "gravacao_sound_recorder"
+    },
+    {
+      "file": "records/10.flac",
+      "kind": "gravacao_sound_recorder"
+    },
+    {
+      "file": "records/11.flac",
+      "kind": "gravacao_sound_recorder"
+    },
+    {
+      "file": "records/12.flac",
+      "kind": "gravacao_sound_recorder"
+    },
+    {
+      "file": "records/13.flac",
+      "kind": "gravacao_sound_recorder"
+    },
+    {
+      "file": "records/14-edicao.flac",
+      "kind": "gravacao_sound_recorder_editada"
+    }
+  ],
+  "visuals": [
+    {
+      "at": 0.0,
+      "image": "slide-01.png",
+      "dissolve": true
+    },
+    {
+      "at": 16.4,
+      "image": "slide-02.png",
+      "dissolve": true
+    },
+    {
+      "at": 37.3,
+      "image": "slide-03.png",
+      "dissolve": true
+    },
+    {
+      "at": 58.3,
+      "image": "slide-04.png",
+      "dissolve": true
+    },
+    {
+      "at": 78.9,
+      "image": "slide-05.png",
+      "dissolve": true
+    },
+    {
+      "at": 110.1,
+      "image": "slide-06.png",
+      "dissolve": true
+    },
+    {
+      "at": 115.19,
+      "image": "slide-06-seq-0.png",
+      "dissolve": false
+    },
+    {
+      "at": 116.35,
+      "image": "slide-06-seq-1.png",
+      "dissolve": false
+    },
+    {
+      "at": 117.1,
+      "image": "slide-06-seq-2.png",
+      "dissolve": false
+    },
+    {
+      "at": 117.8,
+      "image": "slide-06-seq-3.png",
+      "dissolve": false
+    },
+    {
+      "at": 118.5,
+      "image": "slide-06-seq-4.png",
+      "dissolve": false
+    },
+    {
+      "at": 122.99,
+      "image": "slide-06-seq-5.png",
+      "dissolve": false
+    },
+    {
+      "at": 123.8,
+      "image": "slide-06-seq-6.png",
+      "dissolve": false
+    },
+    {
+      "at": 124.25,
+      "image": "slide-06-seq-7.png",
+      "dissolve": false
+    },
+    {
+      "at": 126.33,
+      "image": "slide-06-seq-8.png",
+      "dissolve": false
+    },
+    {
+      "at": 130.59,
+      "image": "slide-06-seq-9.png",
+      "dissolve": false
+    },
+    {
+      "at": 132.0,
+      "image": "slide-07.png",
+      "dissolve": true
+    },
+    {
+      "at": 153.96133333333333,
+      "image": "slide-08.png",
+      "dissolve": true
+    },
+    {
+      "at": 180.91970833333332,
+      "image": "slide-09.png",
+      "dissolve": true
+    },
+    {
+      "at": 208.50502083333333,
+      "image": "slide-10.png",
+      "dissolve": true
+    },
+    {
+      "at": 215.72502083333333,
+      "image": "slide-10-merge-1.png",
+      "dissolve": false
+    },
+    {
+      "at": 221.92502083333332,
+      "image": "slide-10-merge-1-diagonal.png",
+      "dissolve": false
+    },
+    {
+      "at": 225.16502083333333,
+      "image": "slide-10-merge-2.png",
+      "dissolve": false
+    },
+    {
+      "at": 227.38502083333333,
+      "image": "slide-10-merge-3.png",
+      "dissolve": false
+    },
+    {
+      "at": 233.6870625,
+      "image": "slide-11.png",
+      "dissolve": true
+    },
+    {
+      "at": 265.7654375,
+      "image": "slide-12.png",
+      "dissolve": true
+    },
+    {
+      "at": 286.976875,
+      "image": "slide-13.png",
+      "dissolve": true
+    },
+    {
+      "at": 317.48789583333337,
+      "image": "slide-14.png",
+      "dissolve": true
+    }
+  ],
+  "chapters": [
+    {
+      "slide": 1,
+      "at": 0.0,
+      "title": "Contagem de objetos em uma matriz binária"
+    },
+    {
+      "slide": 2,
+      "at": 16.4,
+      "title": "O que conta como um objeto"
+    },
+    {
+      "slide": 3,
+      "at": 37.3,
+      "title": "1. Ler a matriz e iniciar a sequencial"
+    },
+    {
+      "slide": 4,
+      "at": 58.3,
+      "title": "2. Encontrar um novo componente"
+    },
+    {
+      "slide": 5,
+      "at": 78.9,
+      "title": "3. Visitar os oito vizinhos"
+    },
+    {
+      "slide": 6,
+      "at": 110.1,
+      "title": "4. Acompanhar a contagem sequencial"
+    },
+    {
+      "slide": 7,
+      "at": 132.0,
+      "title": "5. Dividir as linhas entre processos"
+    },
+    {
+      "slide": 8,
+      "at": 153.96133333333333,
+      "title": "6. Criar os filhos e os pipes"
+    },
+    {
+      "slide": 9,
+      "at": 180.91970833333332,
+      "title": "7. Enviar a contagem e as duas bordas"
+    },
+    {
+      "slide": 10,
+      "at": 208.50502083333333,
+      "title": "8. Consolidar os objetos na fronteira"
+    },
+    {
+      "slide": 11,
+      "at": 233.6870625,
+      "title": "9. Evitar a contagem duplicada"
+    },
+    {
+      "slide": 12,
+      "at": 265.7654375,
+      "title": "10. Executar e comparar as saídas"
+    },
+    {
+      "slide": 13,
+      "at": 286.976875,
+      "title": "11. Comparar o desempenho"
+    },
+    {
+      "slide": 14,
+      "at": 317.48789583333337,
+      "title": "12. Validação e encerramento"
+    }
+  ],
+  "sync_method": "Pausas e palavras das gravações locais; simulação sequencial nos rótulos 1, 14 e 21; consolidação na soma 5, contato diagonal, união e contatos repetidos.",
+  "status": "completo",
+  "subtitles": "records/apresentacao-final.srt",
+  "edits": [
+    {
+      "source": "records/14.flac",
+      "result": "records/14-edicao.flac",
+      "removed_start": 6.22,
+      "removed_end": 8.88,
+      "crossfade": 0.02,
+      "reason": "Retirada da menção numérica de execuções para evitar divergência com o dado 3.813 do slide e do relatório. As falas sobre 723 matrizes e validação permanecem."
+    }
+  ],
+  "duration_expected": 341.5572916666667
+}
