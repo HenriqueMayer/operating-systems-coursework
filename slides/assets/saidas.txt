@@ -1,8 +1,0 @@
-$ ./build/sequencial tests/matrizes/exemplo1.txt
-3
-
-$ ./build/paralela tests/matrizes/exemplo1.txt 2
-3
-
-$ ./build/paralela tests/matrizes/exemplo2.txt 2
-4

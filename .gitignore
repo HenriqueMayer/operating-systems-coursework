@@ -2,8 +2,34 @@
 __pycache__/
 *.py[cod]
 
-# Arquivos intermediários preservados apenas no acervo local.
-/records/originais-silenciosos/
-/records/apresentacao-1-7.mp4
-/records/apresentacao-1-7.srt
-/records/edicao-1-7.json
+# Materiais auxiliares e de apresentação preservados no acervo local.
+/records/
+/slides/
+/PDF/
+/docs/
+/reference/
+
+# Áudio, vídeo, legendas e apresentações.
+*.aac
+*.aiff
+*.avi
+*.flac
+*.m4a
+*.mkv
+*.mov
+*.mp3
+*.mp4
+*.ogg
+*.opus
+*.wav
+*.webm
+*.srt
+*.vtt
+*.ppt
+*.pptx
+
+# Configurações locais de assistentes.
+.codex/
+.agents/
+AGENTS.md
+CODEX.md

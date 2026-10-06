@@ -13,7 +13,7 @@ Validação executada em 29/09/2026, em Linux. Compilação C89/C90 com `-Wall -
 
 Comandos: `make test` e `make sanitize`. Os testes de falha são compilados separadamente, sem sanitizadores, usando o linker GNU em Linux. Os testes não simulam todas as falhas possíveis das APIs POSIX e não comprovam ausência de erros para qualquer tamanho de entrada.
 
-O código C usa APIs disponíveis em Linux e macOS; esta execução não validou uma máquina macOS. A [apresentação em slides](../slides/README.md) e o [vídeo completo](../records/apresentacao-final.mp4) estão disponíveis.
+O código C usa APIs disponíveis em Linux e macOS; esta execução não validou uma máquina macOS.
 
 ## Revalidação para entrega — 06/10/2026
 
