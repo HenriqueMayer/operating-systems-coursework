@@ -1,0 +1,54 @@
+{
+  "system": "Linux-6.12.111+deb13-amd64-x86_64-with-glibc2.41",
+  "compiler": "cc (Debian 14.2.0-19) 14.2.0",
+  "matrix": {
+    "rows": 800,
+    "cols": 800,
+    "density": 0.45,
+    "seed": 20260929
+  },
+  "objects": 4881,
+  "repetitions": 5,
+  "scope": "Tempo total do executavel, incluindo entrada, processos, IPC e consolidacao.",
+  "records": [
+    {
+      "version": "sequencial",
+      "processes": null,
+      "samples_seconds": [
+        0.06387025100002575,
+        0.05557905699993171,
+        0.0561872640000729,
+        0.062262853999982326,
+        0.06529854699988391
+      ],
+      "median_seconds": 0.062262853999982326,
+      "speedup": 1.0
+    },
+    {
+      "version": "paralela",
+      "processes": 2,
+      "samples_seconds": [
+        0.06626353799993012,
+        0.05691069799991055,
+        0.05400390299996616,
+        0.06118547799997032,
+        0.05291302600016934
+      ],
+      "median_seconds": 0.05691069799991055,
+      "speedup": 1.0940448138604835
+    },
+    {
+      "version": "paralela",
+      "processes": 4,
+      "samples_seconds": [
+        0.05489817399984531,
+        0.05529763100003038,
+        0.06882232499992824,
+        0.07311699199999566,
+        0.056507413999952405
+      ],
+      "median_seconds": 0.056507413999952405,
+      "speedup": 1.101852829436413
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+/build/
+__pycache__/
+*.py[cod]
+
+# Arquivos intermediários preservados apenas no acervo local.
+/records/originais-silenciosos/
+/records/apresentacao-1-7.mp4
+/records/apresentacao-1-7.srt
+/records/edicao-1-7.json

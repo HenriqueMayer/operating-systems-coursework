@@ -1,0 +1,662 @@
+{
+  "slides": [
+    {
+      "title": "Contagem de objetos em uma matriz binária",
+      "who": "Membro 1",
+      "seconds": 15,
+      "say": "Nós implementamos duas versões para contar objetos em uma matriz binária. A primeira é sequencial. A segunda divide o cálculo entre processos POSIX. Vou explicar a entrada e a busca; depois, meu colega explica a divisão e a consolidação.",
+      "how": "Fale olhando para a turma. Não leia o título inteiro. Aponte para as duas versões e avance.",
+      "source": "Enunciado, páginas 1, 2 e 8."
+    },
+    {
+      "title": "O que conta como um objeto",
+      "who": "Membro 1",
+      "seconds": 35,
+      "say": "Cada zero é fundo e cada um pertence ao primeiro plano. Um objeto é um grupo de uns conectados. A conexão inclui os lados e os cantos: são os oito vizinhos. Neste exemplo, temos o grupo do canto superior esquerdo, o grupo à direita e a célula de baixo. Por isso, o resultado é três.",
+      "how": "Mostre os três grupos na matriz. No desenho dos vizinhos, destaque as diagonais. Não conte células como se fossem objetos.",
+      "source": "Enunciado, página 4, exemplo 1; tests/matrizes/exemplo1.txt."
+    },
+    {
+      "title": "1. Ler a matriz e iniciar a sequencial",
+      "who": "Membro 1",
+      "seconds": 40,
+      "say": "O arquivo começa com o número de linhas e colunas. Depois vêm os valores da matriz. get_matrix lê e valida esses dados. calloc cria os rótulos com zero, indicando que nada foi visitado. Na sequencial, chamamos get_part_objects da linha zero até o total de linhas: ou seja, toda a matriz.",
+      "how": "Leia apenas os nomes das três chamadas: get_matrix, calloc e get_part_objects. Explique que o segundo limite da faixa não é incluído. Evite ler cada símbolo do código.",
+      "source": "src/sequencial.c:17–26; src/matrix.c:45–88."
+    },
+    {
+      "title": "2. Encontrar um novo componente",
+      "who": "Membro 1",
+      "seconds": 40,
+      "say": "O laço percorre as células. Se for fundo ou já tiver rótulo, ele pula. Quando encontra um um ainda não visitado, soma um objeto. O rótulo é o índice global dessa célula mais um. Depois marca a célula e a coloca na pilha. Esse índice também impede que processos diferentes criem rótulos iguais.",
+      "how": "Siga as linhas de cima para baixo. Aponte primeiro para continue, depois objects, labels e stack. Diga que o rótulo é um identificador, não a contagem final.",
+      "source": "src/matrix.c:112–119."
+    },
+    {
+      "title": "3. Visitar os oito vizinhos",
+      "who": "Membro 1",
+      "seconds": 45,
+      "say": "Enquanto há células na pilha, o código retira a última e examina os oito vizinhos. Os laços de dr e dc representam os deslocamentos de menos um a mais um. Os limites impedem sair da matriz ou da faixa do processo. Um vizinho só entra na pilha se vale um e ainda não tem rótulo. Ele é marcado antes de entrar, evitando colocá-lo várias vezes. A busca é iterativa, então não depende da pilha de chamadas recursivas.",
+      "how": "Use a mão para indicar retirar e inserir na pilha. No trecho visível, destaque a condição e a ordem das duas atribuições. Os laços completos estão nas linhas 120–138 para eventual pergunta.",
+      "source": "src/matrix.c:120–138."
+    },
+    {
+      "title": "4. Acompanhar a contagem sequencial",
+      "who": "Membro 1",
+      "seconds": 40,
+      "say": "Vamos acompanhar a mesma matriz. A primeira célula cria o rótulo um. Seus vizinhos recebem esse rótulo e formam um único objeto. Depois, a busca encontra o grupo à direita, com rótulo quatorze, e a célula de baixo, com rótulo vinte e um. Os números dos rótulos são diferentes da contagem: o total é três.",
+      "how": "Clique duas vezes em Próximo passo para mostrar o primeiro grupo. Em seguida clique Resultado, para não gastar tempo em todos os passos. Passe a palavra: “Agora vamos dividir essa mesma busca entre processos.”",
+      "source": "src/matrix.c:113–139; exemplo 1."
+    },
+    {
+      "title": "5. Dividir as linhas entre processos",
+      "who": "Membro 2",
+      "seconds": 35,
+      "say": "A paralela divide a matriz em faixas de linhas. Com seis linhas e dois processos, cada um recebe três. base calcula a quantidade mínima e extra calcula a sobra. Quando a divisão não é exata, as primeiras faixas recebem uma linha a mais. Cada processo faz trabalho real: executa a busca nas células da sua faixa.",
+      "how": "Mostre as duas faixas, não fale em blocos quadrados. Explique que as linhas do desenho começam em um, mas os índices no código começam em zero.",
+      "source": "src/paralela.c:158–162; enunciado, páginas 3 e 4."
+    },
+    {
+      "title": "6. Criar os filhos e os pipes",
+      "who": "Membro 2",
+      "seconds": 40,
+      "say": "O pai lê a matriz e cria um pipe antes de cada fork. fork cria um processo filho. Cada filho recebe uma cópia do espaço de memória e executa sua faixa. Não usamos memória compartilhada para escrever os rótulos; cada filho escreve nos seus próprios dados. O pipe leva o resultado ao pai. Depois, waitpid verifica se cada filho terminou corretamente. São dois trabalhadores mais o processo pai.",
+      "how": "Percorra o desenho de cima para baixo. Explique a volta dos dados pelos pipes. Diga explicitamente que usamos processos, não threads; por isso não há mutex protegendo esses rótulos.",
+      "source": "src/paralela.c:163–187 e 205–212."
+    },
+    {
+      "title": "7. Enviar a contagem e as duas bordas",
+      "who": "Membro 2",
+      "seconds": 35,
+      "say": "O filho chama a mesma função de busca da sequencial. Ao terminar, envia três partes: a quantidade de componentes, a primeira linha de rótulos e a última. Não precisa enviar todos os rótulos porque qualquer conexão com outra faixa passa pela borda. transfer repete read ou write até completar a transferência, pois um pipe pode entregar menos bytes que o solicitado.",
+      "how": "Mostre as três chamadas de transfer. Não leia os cálculos de ponteiro; explique que a última expressão aponta para a última linha da faixa.",
+      "source": "src/paralela.c:17–31 e 42–61."
+    },
+    {
+      "title": "8. Consolidar os objetos na fronteira",
+      "who": "Membro 2",
+      "seconds": 55,
+      "say": "Esse exemplo mostra por que não basta somar. A faixa superior encontra dois componentes e a inferior encontra três: a soma dá cinco. Mas os rótulos dez e vinte e oito são partes do mesmo objeto central. Eles se encontram na fronteira, inclusive por uma diagonal. Ao unir os dois, a contagem cai para quatro. Outros contatos entre as mesmas partes não reduzem a contagem outra vez.",
+      "how": "Clique Próxima etapa para mostrar os rótulos e a soma cinco. Clique novamente para mostrar a união e o total quatro. Clique uma terceira vez para explicar o contato repetido. Aponte para as duas células diagonais.",
+      "source": "Enunciado, página 4, exemplo 2; src/paralela.c:84–96."
+    },
+    {
+      "title": "9. Evitar a contagem duplicada",
+      "who": "Membro 2",
+      "seconds": 40,
+      "say": "Union-Find mantém grupos de rótulos equivalentes. get_root encontra o representante de cada grupo. Se os dois representantes já são iguais, continue evita repetir a união e a subtração. Se forem diferentes, parents liga os grupos e objects diminui uma unidade. rank ajuda a manter a estrutura pouco profunda; get_root também comprime o caminho. É isso que mantém a contagem correta quando existem vários contatos na borda.",
+      "how": "Aponte principalmente para a igualdade dos representantes e para a subtração. Não explique árvores em detalhes. Se perguntarem sobre os vizinhos, mostre que cada célula compara as colunas esquerda, central e direita da próxima faixa.",
+      "source": "src/paralela.c:64–98."
+    },
+    {
+      "title": "10. Executar e comparar as saídas",
+      "who": "Membro 1",
+      "seconds": 40,
+      "say": "Depois de compilar com make, executamos as duas versões sobre o mesmo arquivo. No exemplo um, ambas imprimem três. No exemplo dois, a paralela imprime quatro, como vimos na simulação. A tabela mostra que as cinco matrizes obrigatórias também produziram os resultados esperados. A saída é somente o número de objetos.",
+      "how": "Mostre as saídas já registradas no slide. Se houver tempo, rode os dois primeiros comandos no terminal previamente aberto. Não compile nem rode a suíte inteira durante a fala; use as saídas do slide como alternativa.",
+      "source": "Saídas capturadas dos executáveis; tests/matrizes/exemplo1–5.txt; results/validacao.md."
+    },
+    {
+      "title": "11. Comparar o desempenho",
+      "who": "Membro 2",
+      "seconds": 40,
+      "say": "Para desempenho, usamos a mesma matriz de oitocentas linhas e colunas. Fizemos cinco medições e usamos a mediana do tempo total. A sequencial levou cerca de sessenta e dois milissegundos. Com dois processos, cerca de cinquenta e sete; com quatro, cerca de cinquenta e seis e meio. A aceleração ficou perto de um vírgula um. O ganho foi pequeno porque leitura, criação dos processos, comunicação e consolidação também custam tempo. Não esperamos que toda matriz fique mais rápida.",
+      "how": "Leia os valores arredondados. Explique a fórmula em uma frase. Aponte para a observação do tempo total e não apresente os resultados como garantia de escalabilidade.",
+      "source": "results/benchmark.json e results/desempenho.md; medição local de 29/09/2026."
+    },
+    {
+      "title": "12. Validação e encerramento",
+      "who": "Dupla",
+      "seconds": 30,
+      "say": "Membro 1: Além das cinco matrizes, validamos setecentas e vinte e três matrizes em três mil oitocentas e treze execuções C, com uma referência independente. Incluímos diagonais e objetos grandes.\n\nMembro 2: Também verificamos entradas inválidas e falhas de memória e fork. A solução distribui a busca entre os filhos e consolida no pai. As duas versões contam os mesmos objetos nos casos testados.",
+      "how": "Cada membro fala por aproximadamente quinze segundos. Termine depois da última frase e deixe espaço para perguntas. Não acrescente slogans nem repita toda a apresentação.",
+      "source": "results/validacao.md; tests/validate.py; enunciado, páginas 8 e 9."
+    }
+  ],
+  "sequential": [
+    {
+      "labels": [
+        [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "objects": 1,
+      "text": "Novo componente: linha 1, coluna 1. Rótulo 1; contagem 1.",
+      "stack": 1
+    },
+    {
+      "labels": [
+        [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "objects": 1,
+      "text": "Retira linha 1, coluna 1 da pilha e verifica os oito vizinhos.",
+      "stack": 3
+    },
+    {
+      "labels": [
+        [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "objects": 1,
+      "text": "Retira linha 2, coluna 2 da pilha e verifica os oito vizinhos.",
+      "stack": 2
+    },
+    {
+      "labels": [
+        [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "objects": 1,
+      "text": "Retira linha 2, coluna 1 da pilha e verifica os oito vizinhos.",
+      "stack": 1
+    },
+    {
+      "labels": [
+        [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "objects": 1,
+      "text": "Retira linha 1, coluna 2 da pilha e verifica os oito vizinhos.",
+      "stack": 0
+    },
+    {
+      "labels": [
+        [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          14,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "objects": 2,
+      "text": "Novo componente: linha 3, coluna 4. Rótulo 14; contagem 2.",
+      "stack": 1
+    },
+    {
+      "labels": [
+        [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          14,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          14,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "objects": 2,
+      "text": "Retira linha 3, coluna 4 da pilha e verifica os oito vizinhos.",
+      "stack": 1
+    },
+    {
+      "labels": [
+        [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          14,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          14,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "objects": 2,
+      "text": "Retira linha 4, coluna 4 da pilha e verifica os oito vizinhos.",
+      "stack": 0
+    },
+    {
+      "labels": [
+        [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          14,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          14,
+          0
+        ],
+        [
+          21,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "objects": 3,
+      "text": "Novo componente: linha 5, coluna 1. Rótulo 21; contagem 3.",
+      "stack": 1
+    },
+    {
+      "labels": [
+        [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          14,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          14,
+          0
+        ],
+        [
+          21,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "objects": 3,
+      "text": "Busca encerrada: 3 objetos, todos os componentes rotulados.",
+      "stack": 0
+    }
+  ],
+  "parallel_labels": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      7,
+      7
+    ],
+    [
+      0,
+      10,
+      10,
+      10,
+      10,
+      0,
+      7,
+      0
+    ],
+    [
+      0,
+      0,
+      10,
+      10,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      28,
+      28,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      28,
+      0,
+      0,
+      40
+    ],
+    [
+      41,
+      41,
+      0,
+      0,
+      0,
+      0,
+      40,
+      40
+    ]
+  ],
+  "parallel_merged": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      7,
+      7
+    ],
+    [
+      0,
+      10,
+      10,
+      10,
+      10,
+      0,
+      7,
+      0
+    ],
+    [
+      0,
+      0,
+      10,
+      10,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      10,
+      10,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      10,
+      0,
+      0,
+      40
+    ],
+    [
+      41,
+      41,
+      0,
+      0,
+      0,
+      0,
+      40,
+      40
+    ]
+  ]
+}
